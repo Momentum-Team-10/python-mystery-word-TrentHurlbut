@@ -66,20 +66,19 @@ def mystery_word_game(file):
         else:
             if guess in mystery_word_letter_list:
                 if guess not in guessed_letter_list:
-                    for letter in mystery_word_letter_list:
-                        if letter == guess:
-                            print(mystery_word_letter_list.index(letter))
-                            print(mystery_word_letter_list)
+                    for idx in range(len(mystery_word_letter_list)):
+                        if mystery_word_letter_list[idx] == guess:
+                            blanks_list[idx] = guess
                     guessed_letter_list.append(guess)
-                    print(blanks_list)
-                    print(guessed_letter_list)
+                    print(f"Nice Work! You guessed correctly! {blanks_list}")
+                    print(f"Here are your guesses so far: {guessed_letter_list}")
                 else:
                     print("I'm sorry, you've guessed that letter already.")
             else:
                 if guess not in guessed_letter_list:
                     guessed_letter_list.append(guess)
-                    print(blanks_list)
-                    print(guessed_letter_list)
+                    print(f"Shucks! Not in the word! {blanks_list}")
+                    print(f"Here are your guesses so far: {guessed_letter_list}")
                     incorrect_correct_guess_counter += 1
                 else:
                     print("I'm sorry, you've guessed that letter already.")
