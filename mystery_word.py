@@ -1,15 +1,3 @@
-#READ IN FILE
-#CLEAN FILE AND BREAK INTO LIST [MAY BE A GOOD IDEA TO USE STOP WORDS TO FILTER]
-#SELECT WORD FROM LIST
-#CREATE LIST OF BLANKS WHICH MATCHES LENGTH OF WORD
-#CREATE LIST TO HOLD GUESSED LETTERS
-#CREATE PROMPT FOR USER TO GUESS LETTERS
-#CHECK INPUT: IS IT A LETTER? IS IT A LETTER THAT HAS ALREADY BEEN GUESSED? THROW ERROR
-#IF IT'S A LETTER THAT HASN'T BEEN GUESSED, IS IT IN THE WORD?
-#IF IT'S IN THE WORD, UPDATE BLANKS LIST. IF IT'S NOT, KEEP TRACK OF BAD GUESSES.
-#EITHER WAY, UPDATE GUESSED LETTER LIST.
-#WIN/LOSE CON.
-
 import string
 import random
 
@@ -47,52 +35,86 @@ STOP_WORDS = [
     "with",
 ]
 
+
 def mystery_word_game(file):
-    
+
+    """This function first calls generate_random_word which generates a random word from words.txt.
+    It then generates a list full of blanks (blanks_list) which matches the length of the random
+    word, a blank list for guessed letters to be stored, and a counter for incorrect guesses."""
+
     mystery_word_letter_list = list(generate_random_word(file))
     blanks_list = ["_" for letter in mystery_word_letter_list]
     guessed_letter_list = []
     incorrect_correct_guess_counter = 0
+    user_quit = False
+
+    # The user is welcomed to the game.
 
     print(len("string"))
 
-    print('WELCOME TO THE MYSTERY WORD GAME! A word has randomly been selected from the English language and it is your job to guess what it is!')
+    print(
+        "WELCOME TO THE MYSTERY WORD GAME! A word has randomly been selected from the English language and it is your job to guess what it is!"
+    )
+    print("At any time, type QUIT to exit.")
 
     print(mystery_word_letter_list)
 
-    while incorrect_correct_guess_counter < 8 and "_" in blanks_list:
-        guess = input('Please make a guess: ')
+    # The user is prompted to make a guess. The prompts will continue to come so long as the incorrect_correct_guess_counter
+    # is less than 8 or there are still "_" characters in the blanks_list.
 
-        if len(guess) != 1 or guess in string.punctuation or guess in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']:
-            print('Ooooooh... I\'m so sorry that was not a letter.')
+    while (
+        incorrect_correct_guess_counter < 8
+        and "_" in blanks_list
+        and user_quit is False
+    ):
+        guess = input("Please make a guess: ")
+        if guess == "QUIT":
+            user_quit = True
+        # This checks to see if the user input was a letter.
+        elif (
+            len(guess) != 1
+            or guess in string.punctuation
+            or guess in ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+        ):
+            print("Ooooooh... I'm so sorry that was not a letter.")
         else:
+            # If the user guessed a letter correctly, the blanks list is updated with that letter at corresponding
+            # indices.
             if guess in mystery_word_letter_list:
                 if guess not in guessed_letter_list:
                     for idx in range(len(mystery_word_letter_list)):
                         if mystery_word_letter_list[idx] == guess:
                             blanks_list[idx] = guess
                     guessed_letter_list.append(guess)
-                    print(f"Nice Work! You guessed correctly! Here's what you know about the word so far: {blanks_list}")
+                    # The user gets information on how their guessing is going.
+                    print(
+                        f"Nice Work! You guessed correctly! Here's what you know about the word so far: {blanks_list}"
+                    )
                     print(f"Here are the letters you've so far: {guessed_letter_list}")
                 else:
                     print("I'm sorry, you've guessed that letter already.")
             else:
                 if guess not in guessed_letter_list:
                     guessed_letter_list.append(guess)
-                    print(f"Shucks! Not in the word! Here's what you know about the word so far: {blanks_list}")
-                    print(f"Here are the letters you've guessed so far: {guessed_letter_list}")
+                    print(
+                        f"Shucks! Not in the word! Here's what you know about the word so far: {blanks_list}"
+                    )
+                    print(
+                        f"Here are the letters you've guessed so far: {guessed_letter_list}"
+                    )
                     incorrect_correct_guess_counter += 1
-                    print(f"You have {8 - incorrect_correct_guess_counter} guesses left.")
+                    print(
+                        f"You have {8 - incorrect_correct_guess_counter} guesses left."
+                    )
                 else:
                     print("I'm sorry, you've guessed that letter already.")
-        
-    if "_" not in blanks_list:
+    # These are the scenarios that take place when the game ends.
+    if user_quit == True:
+        print("Thanks for playing!")
+    elif "_" not in blanks_list:
         print("Congratulations! You've guessed the mystery word!")
     else:
         print("Bummer!! You ran out of guesses!")
-
-        
-        
 
 
 def generate_random_word(text_file):
@@ -116,8 +138,9 @@ def generate_random_word(text_file):
             .lower()
             .split()
         )
-    
+
     return random.choice(word_list)
+
 
 if __name__ == "__main__":
     import argparse
