@@ -58,7 +58,9 @@ def mystery_word_game(file):
 
     print('WELCOME TO THE MYSTERY WORD GAME! A word has randomly been selected from the English language and it is your job to guess what it is!')
 
-    while incorrect_correct_guess_counter < 8 or "_" not in blanks_list:
+    print(mystery_word_letter_list)
+
+    while incorrect_correct_guess_counter < 8 and "_" in blanks_list:
         guess = input('Please make a guess: ')
 
         if len(guess) != 1 or guess in string.punctuation or guess in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']:
@@ -70,16 +72,17 @@ def mystery_word_game(file):
                         if mystery_word_letter_list[idx] == guess:
                             blanks_list[idx] = guess
                     guessed_letter_list.append(guess)
-                    print(f"Nice Work! You guessed correctly! {blanks_list}")
-                    print(f"Here are your guesses so far: {guessed_letter_list}")
+                    print(f"Nice Work! You guessed correctly! Here's what you know about the word so far: {blanks_list}")
+                    print(f"Here are the letters you've so far: {guessed_letter_list}")
                 else:
                     print("I'm sorry, you've guessed that letter already.")
             else:
                 if guess not in guessed_letter_list:
                     guessed_letter_list.append(guess)
-                    print(f"Shucks! Not in the word! {blanks_list}")
-                    print(f"Here are your guesses so far: {guessed_letter_list}")
+                    print(f"Shucks! Not in the word! Here's what you know about the word so far: {blanks_list}")
+                    print(f"Here are the letters you've guessed so far: {guessed_letter_list}")
                     incorrect_correct_guess_counter += 1
+                    print(f"You have {8 - incorrect_correct_guess_counter} guesses left.")
                 else:
                     print("I'm sorry, you've guessed that letter already.")
         
@@ -115,13 +118,6 @@ def generate_random_word(text_file):
         )
     
     return random.choice(word_list)
-
-
-
-
-
-
-
 
 if __name__ == "__main__":
     import argparse
