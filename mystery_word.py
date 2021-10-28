@@ -52,16 +52,43 @@ def mystery_word_game(file):
     mystery_word_letter_list = list(generate_random_word(file))
     blanks_list = ["_" for letter in mystery_word_letter_list]
     guessed_letter_list = []
+    incorrect_correct_guess_counter = 0
+
+    print(len("string"))
 
     print('WELCOME TO THE MYSTERY WORD GAME! A word has randomly been selected from the English language and it is your job to guess what it is!')
 
-    while "_" in blanks_list or len(guessed_letter_list) < 8:
+    while incorrect_correct_guess_counter < 8 or "_" not in blanks_list:
         guess = input('Please make a guess: ')
 
-        if len(guess) != 1 or type(guess) != 'string':
+        if len(guess) != 1 or guess in string.punctuation or guess in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']:
             print('Ooooooh... I\'m so sorry that was not a letter.')
         else:
-            pass
+            if guess in mystery_word_letter_list:
+                if guess not in guessed_letter_list:
+                    for letter in mystery_word_letter_list:
+                        if letter == guess:
+                            print(mystery_word_letter_list.index(letter))
+                            print(mystery_word_letter_list)
+                    guessed_letter_list.append(guess)
+                    print(blanks_list)
+                    print(guessed_letter_list)
+                else:
+                    print("I'm sorry, you've guessed that letter already.")
+            else:
+                if guess not in guessed_letter_list:
+                    guessed_letter_list.append(guess)
+                    print(blanks_list)
+                    print(guessed_letter_list)
+                    incorrect_correct_guess_counter += 1
+                else:
+                    print("I'm sorry, you've guessed that letter already.")
+        
+    if "_" not in blanks_list:
+        print("Congratulations! You've guessed the mystery word!")
+    else:
+        print("Bummer!! You ran out of guesses!")
+
         
         
 
