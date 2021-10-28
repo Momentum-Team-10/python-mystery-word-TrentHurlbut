@@ -48,9 +48,30 @@ STOP_WORDS = [
 ]
 
 def mystery_word_game(file):
+    
+    mystery_word_letter_list = list(generate_random_word(file))
+    blanks_list = ["_" for letter in mystery_word_letter_list]
+    guessed_letter_list = []
 
-    """This section opens the text file, removes all punctuation, converts it
-    to lowercase, and then to a list of each word."""
+    print('WELCOME TO THE MYSTERY WORD GAME! A word has randomly been selected from the English language and it is your job to guess what it is!')
+
+    while "_" in blanks_list or len(guessed_letter_list) < 8:
+        guess = input('Please make a guess: ')
+
+        if len(guess) != 1 or type(guess) != 'string':
+            print('Ooooooh... I\'m so sorry that was not a letter.')
+        else:
+            pass
+        
+        
+
+
+def generate_random_word(text_file):
+
+    """This function opens the text file, removes all punctuation, converts it
+    to lowercase, creates a list where each word is an index, and selects a random
+    word from the list."""
+
     with open(file) as text:
         content = text.read()
         formatted_content = content.replace(string.punctuation, "")
@@ -67,10 +88,7 @@ def mystery_word_game(file):
             .split()
         )
     
-    mystery_word = random.choice(word_list)
-
-    print(mystery_word)
-
+    return random.choice(word_list)
 
 
 
