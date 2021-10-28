@@ -57,8 +57,6 @@ def mystery_word_game(file):
     )
     print("At any time, type QUIT to exit.")
 
-    print(mystery_word_letter_list)
-
     # The user is prompted to make a guess. The prompts will continue to come so long as the incorrect_correct_guess_counter
     # is less than 8 or there are still "_" characters in the blanks_list.
 
