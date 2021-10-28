@@ -35,23 +35,24 @@ STOP_WORDS = [
     "with",
 ]
 
+
 def mystery_word_game(file):
 
     """This function first calls generate_random_word which generates a random word from words.txt.
     It then generates a list full of blanks (blanks_list) which matches the length of the random
     word, a blank list for guessed letters to be stored, and a counter for incorrect guesses."""
 
-        # The user is welcomed to the game.
+    # The user is welcomed to the game.
     print(
         "WELCOME TO THE MYSTERY WORD GAME! A word has randomly been selected from the English language and it is your job to guess what it is!"
     )
     print("Each randomly selected word is in all lower-case.")
     print("At any time, type QUIT to exit.")
-    
+
     user_quit = False
 
     difficulty = difficulty_selection()
-    
+
     mystery_word_letter_list = list(generate_random_word(file, difficulty))
     blanks_list = ["_" for letter in mystery_word_letter_list]
     guessed_letter_list = []
@@ -116,20 +117,25 @@ def mystery_word_game(file):
     else:
         print("Bummer!! You ran out of guesses!")
 
+
 def difficulty_selection():
+
     """This function returns the difficulty the user has selected, or quits them out of the game
     or prompts them to provide input again."""
-    
+
     selector_flag = True
     while selector_flag == True:
-        difficulty_selector = input('Please select either HARD, NORMAL, or EASY difficulty: ')
+        difficulty_selector = input(
+            "Please select either HARD, NORMAL, or EASY difficulty: "
+        )
 
-        if difficulty_selector in ['QUIT', 'HARD', 'NORMAL', 'EASY']:
+        if difficulty_selector in ["QUIT", "HARD", "NORMAL", "EASY"]:
             selector_flag = False
             return difficulty_selector
         else:
             print("I'm sorry, I didn't recognize that input.")
             print("Please enter difficulty ('HARD', 'NORMAL', 'EASY') or 'QUIT'.")
+
 
 def generate_random_word(text_file, difficulty):
 
@@ -153,27 +159,28 @@ def generate_random_word(text_file, difficulty):
             .split()
         )
 
-    if difficulty == 'QUIT':
+    if difficulty == "QUIT":
         print("Thanks for playing!")
         quit()
-    elif difficulty == 'EASY':
+    elif difficulty == "EASY":
         easy_list = []
         for word in word_list:
             if len(word) > 3 and len(word) < 6:
                 easy_list.append(word)
         return random.choice(easy_list)
-    elif difficulty == 'NORMAL':
+    elif difficulty == "NORMAL":
         normal_list = []
         for word in word_list:
             if len(word) >= 6 and len(word) <= 8:
                 normal_list.append(word)
         return random.choice(normal_list)
-    elif difficulty == 'HARD':
+    elif difficulty == "HARD":
         hard_list = []
         for word in word_list:
             if len(word) > 8:
                 hard_list.append(word)
         return random.choice(hard_list)
+
 
 if __name__ == "__main__":
     import argparse
