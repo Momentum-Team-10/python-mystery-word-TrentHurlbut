@@ -55,6 +55,7 @@ def mystery_word_game(file):
     print(
         "WELCOME TO THE MYSTERY WORD GAME! A word has randomly been selected from the English language and it is your job to guess what it is!"
     )
+    print("Each randomly selected word is in all lower-case.")
     print("At any time, type QUIT to exit.")
 
     # The user is prompted to make a guess. The prompts will continue to come so long as the incorrect_correct_guess_counter
@@ -78,7 +79,9 @@ def mystery_word_game(file):
         else:
             # If the user guessed a letter correctly, the blanks list is updated with that letter at corresponding
             # indices.
-            if guess in mystery_word_letter_list:
+            if guess.isupper() == True:
+                print("Please submit a letter in lower-case.")
+            elif guess in mystery_word_letter_list:
                 if guess not in guessed_letter_list:
                     for idx in range(len(mystery_word_letter_list)):
                         if mystery_word_letter_list[idx] == guess:
