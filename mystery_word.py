@@ -35,28 +35,27 @@ STOP_WORDS = [
     "with",
 ]
 
-
 def mystery_word_game(file):
 
     """This function first calls generate_random_word which generates a random word from words.txt.
     It then generates a list full of blanks (blanks_list) which matches the length of the random
     word, a blank list for guessed letters to be stored, and a counter for incorrect guesses."""
 
-    mystery_word_letter_list = list(generate_random_word(file))
-    blanks_list = ["_" for letter in mystery_word_letter_list]
-    guessed_letter_list = []
-    incorrect_correct_guess_counter = 0
-    user_quit = False
-
-    # The user is welcomed to the game.
-
-    print(len("string"))
-
+        # The user is welcomed to the game.
     print(
         "WELCOME TO THE MYSTERY WORD GAME! A word has randomly been selected from the English language and it is your job to guess what it is!"
     )
     print("Each randomly selected word is in all lower-case.")
     print("At any time, type QUIT to exit.")
+    
+    user_quit = False
+
+    difficulty = difficulty_selection()
+    
+    mystery_word_letter_list = list(generate_random_word(file, difficulty))
+    blanks_list = ["_" for letter in mystery_word_letter_list]
+    guessed_letter_list = []
+    incorrect_correct_guess_counter = 0
 
     # The user is prompted to make a guess. The prompts will continue to come so long as the incorrect_correct_guess_counter
     # is less than 8 or there are still "_" characters in the blanks_list.
@@ -117,8 +116,22 @@ def mystery_word_game(file):
     else:
         print("Bummer!! You ran out of guesses!")
 
+def difficulty_selection():
+    """This function returns the difficulty the user has selected, or quits them out of the game
+    or prompts them to provide input again."""
+    
+    selector_flag = True
+    while selector_flag == True:
+        difficulty_selector = input('Please select either HARD, NORMAL, or EASY difficulty: ')
 
-def generate_random_word(text_file):
+        if difficulty_selector in ['QUIT', 'HARD', 'NORMAL', 'EASY']:
+            selector_flag = False
+            return difficulty_selector
+        else:
+            print("I'm sorry, I didn't recognize that input.")
+            print("Please enter difficulty ('HARD', 'NORMAL', 'EASY') or 'QUIT'.")
+
+def generate_random_word(text_file, difficulty):
 
     """This function opens the text file, removes all punctuation, converts it
     to lowercase, creates a list where each word is an index, and selects a random
@@ -140,8 +153,27 @@ def generate_random_word(text_file):
             .split()
         )
 
-    return random.choice(word_list)
-
+    if difficulty == 'QUIT':
+        print("Thanks for playing!")
+        quit()
+    elif difficulty == 'EASY':
+        easy_list = []
+        for word in word_list:
+            if len(word) > 3 and len(word) < 6:
+                easy_list.append(word)
+        return random.choice(easy_list)
+    elif difficulty == 'NORMAL':
+        normal_list = []
+        for word in word_list:
+            if len(word) >= 6 and len(word) <= 8:
+                normal_list.append(word)
+        return random.choice(normal_list)
+    elif difficulty == 'HARD':
+        hard_list = []
+        for word in word_list:
+            if len(word) > 8:
+                hard_list.append(word)
+        return random.choice(hard_list)
 
 if __name__ == "__main__":
     import argparse
